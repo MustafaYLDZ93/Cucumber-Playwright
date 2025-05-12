@@ -10,7 +10,7 @@ const { After } = require('@cucumber/cucumber');
 let browser; 
 let page;
 
-Given('kullanıcı Saucedemo ana sayfasına gider', async function () {
+Given('kullanıcı Saucedemo ana sayfasına gider', async () => {
     browser = await chromium.launch({ headless: true });
     page = await browser.newPage();
     await page.goto(selectors.SaucedemoUrl);
@@ -22,7 +22,7 @@ When('kullanıcı adı ve şifre ile giriş yapıyorum', async () => {
     await page.click(selectors.loginButton);
 });
 
-When('tüm ürünleri sepete ekler', async function () {
+When('tüm ürünleri sepete ekler', async () => {
     const urunler = await page.locator(selectors.inventoryItem).elementHandles();
     this.urunSayisi = urunler.length;
 
@@ -37,7 +37,7 @@ When('tüm ürünleri sepete ekler', async function () {
     }
 });
 
-Then('sepetteki ürün sayısı doğrulanır', async function () {
+Then('sepetteki ürün sayısı doğrulanır', async () => {
     const cartBadge = page.locator(selectors.cartBadgeSelector);
     const badgeText = await cartBadge.innerText();
     assert.strictEqual(badgeText, `${this.urunSayisi}`, `Sepetteki ürün sayısı ${this.urunSayisi} olmalı`); // node.js assert
