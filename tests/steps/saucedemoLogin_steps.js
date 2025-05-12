@@ -9,7 +9,7 @@ let page;
 
 // Ana Sayfa
 Given('Ana sayfaya gidiyorum', async () => {
-    browser = await chromium.launch({ headless: false });
+    browser = await chromium.launch({ headless: true });
     page = await browser.newPage();
     await page.goto(selectors.SaucedemoUrl);
 });
