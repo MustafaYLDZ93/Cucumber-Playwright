@@ -2,10 +2,6 @@ const { When, Then, Given, After } = require('@cucumber/cucumber');
 const { chromium } = require('playwright');
 const { selectors } = require('../fixtures/saucedemoSelectors.js');
 const assert = require('assert');
-const { expect } = require('chai');
-
-
-
 
 let browser; 
 let page;
@@ -40,13 +36,11 @@ When('tüm ürünleri sepete ekler', async () => {
 Then('sepetteki ürün sayısı doğrulanır', async () => {
     const cartBadge = page.locator(selectors.cartBadgeSelector);
     const badgeText = await cartBadge.innerText();
-    assert.strictEqual(badgeText, `${this.urunSayisi}`, `Sepetteki ürün sayısı ${this.urunSayisi} olmalı`); // node.js assert
-    expect(badgeText).to.equal(`${this.urunSayisi}`); // chai assert
+    assert.strictEqual(badgeText, `${this.urunSayisi}`, `Sepetteki ürün sayısı ${this.urunSayisi} olmalı`);
 });
 
 After(async function () {
     if (browser) {
         await browser.close();
     }
-}
-);
+});
