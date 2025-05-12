@@ -1,9 +1,7 @@
 const { Given, When, Then, After } = require('@cucumber/cucumber');
 const { chromium } = require('playwright');
-const chai = require('chai'); // Named import yerine require kullanımı
 const { selectors } = require('../fixtures/PlaywrightAssertionSelectors.js');
-
-const expect = chai.expect;
+const assert = require('assert');
 
 let page;
 let browser;
@@ -16,13 +14,14 @@ Given('I navigate to the Playwright homepage', async () => {
 
 Then('I should see the banner', async () => {
     const banner = await page.getByRole(selectors.banner);
-    expect(await banner.isVisible()).to.be.true;
+    const isVisible = await banner.isVisible();
+    assert.strictEqual(isVisible, true, 'Banner should be visible');
 });
 
 Then('the banner should contain the text {string}', async (text) => {
     const banner = await page.getByRole(selectors.banner);
     const bannerText = await banner.textContent();
-    expect(bannerText).to.include(text);
+    assert.ok(bannerText.includes(text), `Expected banner text to include "${text}"`);
 });
 
 When('I click on the {string} link', async (linkText) => {
@@ -32,17 +31,19 @@ When('I click on the {string} link', async (linkText) => {
 Then('I should see the Installation header', async () => {
     const installationHeader = await page.locator(selectors.installationHeader);
     const headerText = await installationHeader.textContent();
-    expect(headerText).to.include('Installation');
+    assert.ok(headerText.includes('Installation'), 'Header should include "Installation"');
 });
 
 Then('I should see the Docs sidebar', async () => {
     const docsSidebar = await page.getByLabel(selectors.docsSidebar);
-    expect(await docsSidebar.isVisible()).to.be.true;
+    const isVisible = await docsSidebar.isVisible();
+    assert.strictEqual(isVisible, true, 'Docs sidebar should be visible');
 });
 
 Then('I should see the IntroductionInstalling text', async () => {
     const introText = await page.getByText(selectors.introductionText);
-    expect(await introText.isVisible()).to.be.true;
+    const isVisible = await introText.isVisible();
+    assert.strictEqual(isVisible, true, 'IntroductionInstalling text should be visible');
 });
 
 After(async function () {
