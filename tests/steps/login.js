@@ -1,6 +1,6 @@
-import { Given, When, Then } from "@cucumber/cucumber";
-import axios from 'axios';
-import assert from 'assert';
+const { Given, When, Then } = require('@cucumber/cucumber');
+const axios = require('axios');
+const assert = require('assert');
 
 
 let response;

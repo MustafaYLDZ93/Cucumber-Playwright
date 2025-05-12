@@ -1,7 +1,7 @@
-import { Given, When, Then, After } from '@cucumber/cucumber';
-import { chromium } from 'playwright';
-import * as chai from 'chai'; // Named import kullanımı
-import { selectors } from '../fixtures/PlaywrightAssertionSelectors.js';
+const { Given, When, Then, After } = require('@cucumber/cucumber');
+const { chromium } = require('playwright');
+const chai = require('chai'); // Named import yerine require kullanımı
+const { selectors } = require('../fixtures/PlaywrightAssertionSelectors.js');
 
 const expect = chai.expect;
 
