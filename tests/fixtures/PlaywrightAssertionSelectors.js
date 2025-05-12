@@ -1,9 +1,9 @@
 const playwrightAssertionSelectors = {
     baseUrl: 'https://playwright.dev',
     banner: 'banner',
-    installationHeader: 'h1',
+    installationHeader: 'h1:has-text("Installation")',
     docsSidebar: 'Docs sidebar',
-    introductionText: 'IntroductionInstalling'
+    introductionText: 'Get started by installing Playwright'
 };
 
 module.exports = { selectors: playwrightAssertionSelectors };
