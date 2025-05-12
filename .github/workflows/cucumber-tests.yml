@@ -26,9 +26,7 @@ jobs:
       run: npx playwright install --with-deps
 
     - name: Run Cucumber + Playwright Tests
-      run: BROWSER=chromium npx cucumber-js --require-module --format html:cucumber-report.html
-
-
+      run: BROWSER=chromium npx cucumber-js --format html:cucumber-report.html
 
     - name: Upload Cucumber Report
       if: always()
