@@ -1,4 +1,4 @@
-const saucedemoSelectors = {
+export const selectors = {
     SaucedemoUrl: 'https://www.saucedemo.com',
     usernameselector: '#user-name',
     username: 'standard_user',
@@ -22,4 +22,3 @@ const saucedemoSelectors = {
 
 };
 
-module.exports = { selectors: saucedemoSelectors };

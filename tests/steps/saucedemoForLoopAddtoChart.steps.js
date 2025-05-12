@@ -1,9 +1,9 @@
-const { When, Then, Given, } = require('@cucumber/cucumber');
-const { chromium } = require('playwright');
-const {selectors} = require('../fixtures/saucedemoSelectors')
-const assert = require('assert');
-const { expect } = require('chai');
-const { After } = require('@cucumber/cucumber');
+import { When, Then, Given, After } from '@cucumber/cucumber';
+import { chromium } from 'playwright';
+import { selectors } from '../fixtures/saucedemoSelectors.js';
+import assert from 'assert';
+import { expect } from 'chai';
+
 
 
 

@@ -2,6 +2,10 @@
   "name": "cucumber-playwright-api",
   "version": "1.0.0",
   "main": "index.js",
+  "type": "module",
+  "bin": {
+    "cucumber-playwright-api": "./bin/cucumber-playwright-api.js"
+  },
   "scripts": {},
   "keywords": [],
   "author": "",

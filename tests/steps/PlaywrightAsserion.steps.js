@@ -1,13 +1,12 @@
-const { Given, When, Then, After } = require('@cucumber/cucumber');
-const { chromium } = require('playwright');
-const chai = require('chai');
-const expect = chai.expect;
-const {selectors} = require('../fixtures/PlaywrightAssertionSelectors');
+import { Given, When, Then, After } from '@cucumber/cucumber';
+import { chromium } from 'playwright';
+import * as chai from 'chai'; // Named import kullanımı
+import { selectors } from '../fixtures/PlaywrightAssertionSelectors.js';
 
+const expect = chai.expect;
 
 let page;
 let browser;
-
 
 Given('I navigate to the Playwright homepage', async () => {
     browser = await chromium.launch({ headless: true });
@@ -26,7 +25,7 @@ Then('the banner should contain the text {string}', async (text) => {
     expect(bannerText).to.include(text);
 });
 
-When('I click on the {string} link', async (linkText) =>{
+When('I click on the {string} link', async (linkText) => {
     await page.getByRole('link', { name: linkText }).click();
 });
 
@@ -34,7 +33,6 @@ Then('I should see the Installation header', async () => {
     const installationHeader = await page.locator(selectors.installationHeader);
     const headerText = await installationHeader.textContent();
     expect(headerText).to.include('Installation');
-
 });
 
 Then('I should see the Docs sidebar', async () => {
@@ -51,5 +49,4 @@ After(async function () {
     if (browser) {
         await browser.close();
     }
-}
-);
+});
