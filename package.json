@@ -1,0 +1,19 @@
+{
+  "name": "cucumber-playwright-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/node": "^22.15.17"
+  },
+  "dependencies": {
+    "@cucumber/cucumber": "^11.2.0",
+    "axios": "^1.9.0",
+    "chai": "^5.1.1",
+    "playwright": "^1.45.1"
+  }
+}
