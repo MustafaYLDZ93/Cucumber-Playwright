@@ -1,4 +1,4 @@
-const { When, Then, Given, After } = require('@cucumber/cucumber');
+const { When, Then, Given, After, Before } = require('@cucumber/cucumber');
 const { chromium } = require('playwright');
 const assert = require('assert');
 const { selectors } = require('../fixtures/saucedemoSelectors.js');
@@ -6,8 +6,9 @@ const { selectors } = require('../fixtures/saucedemoSelectors.js');
 
 let browser;
 let page;
-
 // Ana Sayfa
+
+
 Given('Ana sayfaya gidiyorum', async () => {
     browser = await chromium.launch({ headless: true });
     page = await browser.newPage();
@@ -75,5 +76,4 @@ After(async function () {
     await browser.close();
   }
 });
-
 

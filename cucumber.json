@@ -1,20 +1,20 @@
 {
   "default": {
-    "formateOptions":{
-      "snippentInterface": "async-await"
+    "formatOptions": {
+      "snippetInterface": "async-await"
     },
     "paths": [
       "tests/features/*.feature"
     ],
-    "publishQuite": true,
     "dryRun": false,
     "require": [
-      "tests/steps/*.js"
+      "tests/support/*.js",
+      "tests/step_definitions/*.js"
     ],
     "format": [
+      "@cucumber/pretty-formatter",
       "progress-bar",
-      "html: cucumber-report.html"
+      "html:cucumber-report.html"
     ]
-
   }
 }

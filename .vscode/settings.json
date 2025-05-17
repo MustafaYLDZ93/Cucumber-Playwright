@@ -1,8 +1,8 @@
 {
     "cucumber.features": [
-        "src/test/**/*.feature",
-        "features/**/*.feature",
-        "tests/**/*.feature",
-        "*specs*/**/*.feature"
+        "tests/features/**/*.feature" // Alt klasörlerdeki tüm .feature dosyalarını kapsar
+    ],
+    "cucumber.glue": [
+        "tests/step_definitions/**/*.js" // Alt klasörlerdeki tüm step definition dosyalarını kapsar
     ]
 }

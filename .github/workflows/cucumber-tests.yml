@@ -1,10 +1,16 @@
-name: Run Cucumber + Playwright Tests
+name: Run Tagged Cucumber + Playwright Tests
 
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch:
+    inputs:
+      test_tags:
+        description: 'Which tags to run? (e.g. @apiLogin or @login and not @regression)'
+        required: false
+        default: '@login'
 
 jobs:
   test:
@@ -25,8 +31,16 @@ jobs:
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
 
-    - name: Run Cucumber + Playwright Tests
-      run: BROWSER=chromium npx cucumber-js --format html:cucumber-report.html
+    - name: Run Cucumber + Playwright Tests with Tag Filter
+      run: |
+        TAGS="${{ github.event.inputs.test_tags }}"
+        if [ -z "$TAGS" ]; then
+          echo "No tags provided, running all tests"
+          npx cucumber-js --format html:cucumber-report.html
+        else
+          echo "Running tests with tags: $TAGS"
+          npx cucumber-js --tags "$TAGS" --format html:cucumber-report.html
+        fi
 
     - name: Upload Cucumber Report
       if: always()

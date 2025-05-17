@@ -2,18 +2,25 @@
   "name": "cucumber-playwright-api",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "cucumber-js --format summary",
+    "test:playwright": "npx playwright test"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@badeball/cypress-cucumber-preprocessor": "^22.0.1",
+    "@cucumber/cucumber": "^11.2.0",
+    "@cucumber/html-formatter": "^21.10.1",
+    "@cucumber/pretty-formatter": "^1.0.1",
     "@types/node": "^22.15.17"
   },
   "dependencies": {
-    "@cucumber/cucumber": "^11.2.0",
     "@playwright/test": "^1.52.0",
     "axios": "^1.9.0",
+    "chalk": "^5.4.1",
     "playwright": "^1.45.1"
   }
 }
