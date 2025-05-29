@@ -6,7 +6,6 @@ const { selectors } = require('../fixtures/saucedemoSelectors.js');
 
 let browser;
 let page;
-// Ana Sayfa
 
 
 Given('Ana sayfaya gidiyorum', async () => {
@@ -53,7 +52,8 @@ Then('Giriş sayfasına yönlendirildiğimi doğrula', async () => {
     assert.strictEqual(isVisible, true, 'Giriş formu elementi görünür değil');
 });
 
-// Hatalı Giriş Yapma
+// Unsuccessful login and error message verification 
+// ( Given - Ana sayfaya gidiyorum adımını tekrar burada yazmamız gerekmiyor / feature dosyasında tanımlı olduğu için )
 When('Geçersiz kullanıcı adı ve şifre ile giriş yapıyorum', async () => {
     await page.fill(selectors.usernameselector, selectors.invalidusername);
     await page.fill(selectors.passwordselector, selectors.invalidpassword);

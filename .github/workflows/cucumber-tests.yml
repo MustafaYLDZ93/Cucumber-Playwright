@@ -48,3 +48,10 @@ jobs:
       with:
         name: cucumber-report
         path: cucumber-report.html
+
+    - name: Send Slack Notification
+      if: always()
+      run: |
+        STATUS="${{ job.status }}"
+        MESSAGE="*Cucumber + Playwright Test Sonucu:* ${STATUS}\nRepo: ${{ github.repository }}\nCommit: ${{ github.sha }}\nGitHub Action: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+        curl -X POST -H 'Content-type: application/json' --data "{\"text\":\"$MESSAGE\"}" ${{ secrets.SLACK_WEBHOOK_URL }}
