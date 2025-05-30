@@ -21,10 +21,8 @@ pipeline {
                 sh '''
                     echo "=== PATH ==="
                     echo $PATH
-                    echo "=== Node.js Check ==="
                     node --version
                     npm --version
-                    echo "=== Working Directory ==="
                     pwd
                     ls -la
                 '''
@@ -46,32 +44,34 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script {
-                    try {
-                        def tagOption = params.CUCUMBER_TAG?.trim() ? "--tags ${params.CUCUMBER_TAG}" : ""
-                        sh "npx cucumber-js ${tagOption} --format html:cucumber-report.html --format junit:cucumber-report.xml"
-                    } catch (Exception e) {
-                        currentBuild.result = 'UNSTABLE'
-                        echo "Tests failed but continuing pipeline: ${e.getMessage()}"
-                    }
+                    def tagOption = params.CUCUMBER_TAG?.trim() ? "--tags ${params.CUCUMBER_TAG}" : ""
+                    sh "npx cucumber-js ${tagOption} --format html:cucumber-report.html --format junit:cucumber-report.xml"
                 }
             }
         }
 
         stage('Archive Report') {
             steps {
-                script {
-                    if (fileExists('cucumber-report.html')) {
-                        archiveArtifacts artifacts: 'cucumber-report.html'
-                        echo "Report archived successfully"
-                    } else {
-                        echo "Report file not found"
-                    }
-                }
+                archiveArtifacts artifacts: 'cucumber-report.html'
             }
         }
+
         stage('Publish JUnit Report') {
             steps {
                 junit 'cucumber-report.xml'
+            }
+        }
+
+        stage('Publish HTML Report') {
+            steps {
+                publishHTML (target: [
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: true,
+                    keepAll: true,
+                    reportDir: '.',
+                    reportFiles: 'cucumber-report.html',
+                    reportName: 'Cucumber Report'
+                ])
             }
         }
     }
