@@ -69,21 +69,9 @@ pipeline {
                 }
             }
         }
-
         stage('Publish JUnit Report') {
             steps {
                 junit 'cucumber-report.xml'
-            }
-        }
-        stage('Publish HTML Report') {
-            steps {
-                publishHTML(target: [
-                    reportName: 'Cucumber Report',
-                    reportDir: 'cucumber-playwright',
-                    reportFiles: 'cucumber-report.html',
-                    alwaysLinkToLastBuild: true,
-                    keepAll: true
-                ])
             }
         }
     }
