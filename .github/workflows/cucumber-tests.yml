@@ -42,16 +42,29 @@ jobs:
           npx cucumber-js --tags "$TAGS" --format html:cucumber-report.html
         fi
 
-    - name: Upload Cucumber Report
+    - name: Upload Cucumber Report as Artifact
       if: always()
       uses: actions/upload-artifact@v4
       with:
         name: cucumber-report
         path: cucumber-report.html
 
-    - name: Send Slack Notification
+    - name: Send Slack Message via Webhook
       if: always()
       run: |
         STATUS="${{ job.status }}"
         MESSAGE="*Cucumber + Playwright Test Sonucu:* ${STATUS}\nRepo: ${{ github.repository }}\nCommit: ${{ github.sha }}\nGitHub Action: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-        curl -X POST -H 'Content-type: application/json' --data "{\"text\":\"$MESSAGE\"}" ${{ secrets.SLACK_WEBHOOK_URL }}
+        curl -X POST -H 'Content-type: application/json' \
+             --data "{\"text\":\"$MESSAGE\"}" \
+             ${{ secrets.SLACK_WEBHOOK_URL }}
+
+    - name: Send HTML Report to Slack (file upload)
+      if: always()
+      env:
+        SLACK_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      run: |
+        curl -F file=@cucumber-report.html \
+             -F "initial_comment=📄 Test Raporu ektedir (HTML)." \
+             -F channels=#all-tests \
+             -H "Authorization: Bearer $SLACK_TOKEN" \
+             https://slack.com/api/files.upload
