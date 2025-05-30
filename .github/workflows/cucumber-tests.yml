@@ -59,10 +59,3 @@ jobs:
         curl -X POST -H 'Content-type: application/json' \
              --data "{\"text\":\"$MESSAGE\"}" \
              "$SLACK_WEBHOOK_URL"
-    - name: Upload Report to Slack
-      if: always()
-      uses: adrey/slack-file-upload-action@master
-      with:
-        token: ${{ secrets.SLACK_BOT_TOKEN }}
-        path: cucumber-report.html
-        channel: all-tests
