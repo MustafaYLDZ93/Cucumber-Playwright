@@ -48,7 +48,7 @@ pipeline {
                 script {
                     try {
                         def tagOption = params.CUCUMBER_TAG?.trim() ? "--tags ${params.CUCUMBER_TAG}" : ""
-                        sh "npx cucumber-js ${tagOption} --format json:cucumber-report.json"
+                        sh "npx cucumber-js ${tagOption} --format html:cucumber-report.html"
                     } catch (Exception e) {
                         currentBuild.result = 'UNSTABLE'
                         echo "Tests failed but continuing pipeline: ${e.getMessage()}"
@@ -61,7 +61,7 @@ pipeline {
             steps {
                 script {
                     if (fileExists('cucumber-report.html')) {
-                        archiveArtifacts artifacts: 'cucumber-report.json'
+                        archiveArtifacts artifacts: 'cucumber-report.html'
                         echo "Report archived successfully"
                     } else {
                         echo "Report file not found"
