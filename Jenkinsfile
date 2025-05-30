@@ -72,24 +72,14 @@ pipeline {
     }
 
     post {
-    always {
-        echo 'Pipeline completed'
-
-        publishHTML(target: [
-            allowMissing: false,
-            alwaysLinkToLastBuild: true,
-            keepAll: true,
-            reportDir: '/Users/musti/Desktop/testsWebUI/testsCucumberBDD /cucumber-playwright/cucumber-report.html', // Rapor dosyasının bulunduğu klasör
-            reportFiles: 'cucumber-report.html',
-            reportName: 'Cucumber Report'
-        ])
+        always {
+            echo 'Pipeline completed'
+        }
+        success {
+            echo 'Pipeline succeeded!'
+        }
+        failure {
+            echo 'Pipeline failed!'
+        }
     }
-
-    success {
-        echo 'Pipeline succeeded!'
-    }
-    failure {
-        echo 'Pipeline failed!'
-    }
-}
 }
