@@ -51,7 +51,11 @@ jobs:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       run: |
         STATUS="${{ job.status }}"
-        MESSAGE="*🎯 Cucumber + Playwright Test Sonucu:* ${STATUS}\n*📘 Repo:* ${{ github.repository }}\n*🔗 Rapor:* <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|Cucumber Report (HTML)>"
+        TAGS="${{ github.event.inputs.test_tags }}"
+        if [ -z "$TAGS" ]; then
+          TAGS="(Tüm senaryolar çalıştırıldı)"
+        fi
+        MESSAGE="*🎯 Cucumber + Playwright Test Sonucu:* ${STATUS}\n*🏷️ Tag Bilgisi:* \`${TAGS}\`\n*📘 Repo:* ${{ github.repository }}\n*🔗 Rapor:* <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|Cucumber Report (HTML)>"
         curl -X POST -H 'Content-type: application/json' \
              --data "{\"text\":\"$MESSAGE\"}" \
              "$SLACK_WEBHOOK_URL"
