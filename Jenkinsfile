@@ -1,36 +1,19 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'mcr.microsoft.com/playwright:v1.40.0-focal'
+            args '-u root'
+        }
+    }
     stages {
         stage('Checkout') {
             steps {
                 checkout scm
             }
         }
-        stage('Check Node.js') {
-            steps {
-                script {
-                    sh '''
-                        echo "Checking Node.js installation..."
-                        if command -v node > /dev/null 2>&1; then
-                            echo "Node.js is already installed"
-                            node --version
-                            npm --version
-                        else
-                            echo "Node.js not found. Please install Node.js manually or use a different approach."
-                            exit 1
-                        fi
-                    '''
-                }
-            }
-        }
         stage('Install Dependencies') {
             steps {
                 sh 'npm install'
-            }
-        }
-        stage('Install Playwright Browsers') {
-            steps {
-                sh 'npx playwright install --with-deps'
             }
         }
         stage('Run Tests') {
@@ -54,9 +37,6 @@ pipeline {
     post {
         always {
             echo 'Pipeline completed'
-        }
-        cleanup {
-            cleanWs()
         }
     }
 }
