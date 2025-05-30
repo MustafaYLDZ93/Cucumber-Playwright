@@ -48,7 +48,7 @@ pipeline {
                 script {
                     try {
                         def tagOption = params.CUCUMBER_TAG?.trim() ? "--tags ${params.CUCUMBER_TAG}" : ""
-                        sh "npx cucumber-js ${tagOption} --format html:cucumber-report.html"
+                        sh "npx cucumber-js ${tagOption} --format html:cucumber-report.html --format junit:cucumber-report.xml"
                     } catch (Exception e) {
                         currentBuild.result = 'UNSTABLE'
                         echo "Tests failed but continuing pipeline: ${e.getMessage()}"
@@ -67,6 +67,12 @@ pipeline {
                         echo "Report file not found"
                     }
                 }
+            }
+        }
+
+        stage('Publish JUnit Report') {
+            steps {
+                junit 'cucumber-report.xml'
             }
         }
     }
