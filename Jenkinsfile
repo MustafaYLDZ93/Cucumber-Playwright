@@ -79,7 +79,7 @@ pipeline {
             allowMissing: false,
             alwaysLinkToLastBuild: true,
             keepAll: true,
-            reportDir: '.', // Rapor dosyasının bulunduğu klasör
+            reportDir: '/Users/musti/Desktop/testsWebUI/testsCucumberBDD /cucumber-playwright/cucumber-report.html', // Rapor dosyasının bulunduğu klasör
             reportFiles: 'cucumber-report.html',
             reportName: 'Cucumber Report'
         ])
