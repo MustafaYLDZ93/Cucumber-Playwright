@@ -68,7 +68,7 @@ pipeline {
                     allowMissing: false,
                     alwaysLinkToLastBuild: true,
                     keepAll: true,
-                    reportDir: 'cucumber-playwright',
+                    reportDir: '.',
                     reportFiles: 'cucumber-report.html',
                     reportName: 'Cucumber Report'
                 ])
