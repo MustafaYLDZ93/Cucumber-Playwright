@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     parameters {
-        string(name: 'CUCUMBER_TAG', defaultValue: '@login', description: 'Run tests with this tag (e.g., @login, @register)')
+        string(name: 'CUCUMBER_TAG', defaultValue: '', description: 'Run tests with this tag (e.g., @login, @register). Leave empty to run all tests.')
     }
 
     environment {
@@ -47,7 +47,8 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh "npx cucumber-js --tags ${params.CUCUMBER_TAG} --format html:cucumber-report.html"
+                        def tagOption = params.CUCUMBER_TAG?.trim() ? "--tags ${params.CUCUMBER_TAG}" : ""
+                        sh "npx cucumber-js ${tagOption} --format html:cucumber-report.html"
                     } catch (Exception e) {
                         currentBuild.result = 'UNSTABLE'
                         echo "Tests failed but continuing pipeline: ${e.getMessage()}"
