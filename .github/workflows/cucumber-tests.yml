@@ -45,7 +45,7 @@ jobs:
         name: cucumber-report
         path: cucumber-report.html
 
-- name: Send Slack Notification with Report Link
+    - name: Send Slack Notification with Report Link
   if: always()
   env:
     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
