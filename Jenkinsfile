@@ -45,14 +45,14 @@ pipeline {
             steps {
                 script {
                     def tagOption = params.CUCUMBER_TAG?.trim() ? "--tags ${params.CUCUMBER_TAG}" : ""
-                    sh "npx cucumber-js ${tagOption} --format html:cucumber-report.html --format junit:cucumber-report.xml"
+                    sh "npx cucumber-js ${tagOption} --format html:cucumber-report.html --format junit:cucumber-report.xml --format json:cucumber-report.json"
                 }
             }
         }
 
-        stage('Archive Report') {
+        stage('Archive Reports') {
             steps {
-                archiveArtifacts artifacts: 'cucumber-report.html'
+                archiveArtifacts artifacts: '*.html, *.xml, *.json'
             }
         }
 
@@ -62,6 +62,11 @@ pipeline {
             }
         }
 
+        stage('Publish Cucumber JSON Report') {
+            steps {
+                cucumber buildStatus: 'UNSTABLE', fileIncludePattern: '**/cucumber-report.json', sortingMethod: 'ALPHABETICAL'
+            }
+        }
     }
 
     post {
