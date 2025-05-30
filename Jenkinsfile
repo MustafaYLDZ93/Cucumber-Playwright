@@ -48,7 +48,7 @@ pipeline {
                 script {
                     try {
                         def tagOption = params.CUCUMBER_TAG?.trim() ? "--tags ${params.CUCUMBER_TAG}" : ""
-                        sh "npx cucumber-js ${tagOption} --format @cucumber/html-formatter:cucumber-report.html"
+                        sh "npx cucumber-js ${tagOption} --format html:cucumber-report.html"
                     } catch (Exception e) {
                         currentBuild.result = 'UNSTABLE'
                         echo "Tests failed but continuing pipeline: ${e.getMessage()}"
