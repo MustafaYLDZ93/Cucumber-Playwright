@@ -51,10 +51,7 @@ pipeline {
                         sh """
                             mkdir -p reports
                             npx cucumber-js ${tagOption} \
-                                --format json:reports/cucumber-report.json \
                                 --format html:reports/cucumber-report.html \
-                                --format junit:reports/cucumber-junit.xml \
-                                --format @cucumber/pretty-formatter
                         """
                     } catch (Exception e) {
                         currentBuild.result = 'UNSTABLE'
@@ -67,10 +64,6 @@ pipeline {
         stage('Publish Reports') {
             steps {
                 script {
-                    // JUnit Test Results
-                    if (fileExists('reports/cucumber-junit.xml')) {
-                        junit 'reports/cucumber-junit.xml'
-                    }
                     
                     // HTML Report
                     if (fileExists('reports/cucumber-report.html')) {
