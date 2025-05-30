@@ -1,5 +1,4 @@
-@saucedemo
-@login
+@login1
 Feature: SauceDemo Login Success - Unsuccessful
 
   @positive
