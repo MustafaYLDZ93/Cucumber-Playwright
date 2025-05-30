@@ -1,25 +1,14 @@
 pipeline {
     agent any
 
+    tools {
+        nodejs 'NodeJS' // Yukarıda tanımladığın isim
+    }
+
     stages {
         stage('Checkout') {
             steps {
                 checkout scm
-            }
-        }
-
-        stage('Install Node.js') {
-            steps {
-                script {
-                    sh '''
-                    if ! command -v node > /dev/null; then
-                      curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-                      sudo apt-get install -y nodejs
-                    fi
-                    node -v
-                    npm -v
-                    '''
-                }
             }
         }
 
@@ -35,15 +24,22 @@ pipeline {
             }
         }
 
-        stage('Run Tests') {
+        stage('Run Cucumber Tests') {
             steps {
                 sh 'npx cucumber-js --tags @login --format html:cucumber-report.html'
             }
         }
 
-        stage('Archive Report') {
+        stage('Publish Report') {
             steps {
-                archiveArtifacts artifacts: 'cucumber-report.html'
+                publishHTML(target: [
+                    reportDir: '.', 
+                    reportFiles: 'cucumber-report.html', 
+                    reportName: 'Cucumber Test Report',
+                    keepAll: true,
+                    alwaysLinkToLastBuild: true,
+                    allowMissing: false
+                ])
             }
         }
     }
