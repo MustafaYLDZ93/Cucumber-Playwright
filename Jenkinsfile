@@ -1,50 +1,62 @@
 pipeline {
     agent any
-
     stages {
         stage('Checkout') {
             steps {
                 checkout scm
             }
         }
-
-        stage('Install Node.js') {
+        stage('Check Node.js') {
             steps {
                 script {
                     sh '''
-                    if ! command -v node > /dev/null; then
-                      curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-                      sudo apt-get install -y nodejs
-                    fi
-                    node -v
-                    npm -v
+                        echo "Checking Node.js installation..."
+                        if command -v node > /dev/null 2>&1; then
+                            echo "Node.js is already installed"
+                            node --version
+                            npm --version
+                        else
+                            echo "Node.js not found. Please install Node.js manually or use a different approach."
+                            exit 1
+                        fi
                     '''
                 }
             }
         }
-
         stage('Install Dependencies') {
             steps {
                 sh 'npm install'
             }
         }
-
         stage('Install Playwright Browsers') {
             steps {
                 sh 'npx playwright install --with-deps'
             }
         }
-
         stage('Run Tests') {
             steps {
-                sh 'npx cucumber-js --tags @login --format html:cucumber-report.html'
+                script {
+                    try {
+                        sh 'npx cucumber-js --tags @login --format html:cucumber-report.html'
+                    } catch (Exception e) {
+                        currentBuild.result = 'UNSTABLE'
+                        echo "Tests failed: ${e.getMessage()}"
+                    }
+                }
             }
         }
-
         stage('Archive Report') {
             steps {
-                archiveArtifacts artifacts: 'cucumber-report.html'
+                archiveArtifacts artifacts: 'cucumber-report.html', allowEmptyArchive: true
             }
+        }
+    }
+    post {
+        always {
+            echo 'Pipeline completed'
+        }
+        cleanup {
+            cleanWs()
         }
     }
 }
