@@ -56,7 +56,11 @@ pipeline {
             }
         }
 
-        
+        stage('Publish JUnit Report') {
+            steps {
+                junit 'cucumber-report.xml'
+            }
+        }
 
         
     }
