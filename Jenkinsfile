@@ -51,31 +51,12 @@ pipeline {
             }
         }
 
-        stage('Generate Fancy Report') {
-            steps {
-                sh 'rm -rf cucumber-report' // Eski rapor varsa sil
-                sh 'node generate-report.js'
-            }
-        }
-
         stage('Archive Reports') {
             steps {
                 archiveArtifacts artifacts: 'cucumber-report/**'
             }
         }
 
-        stage('HTML Raporu Yayınla') {
-            steps {
-                publishHTML(target: [
-                    reportName: 'Cucumber HTML Raporu',
-                    reportDir: 'cucumber-report',
-                    reportFiles: 'index.html',
-                    keepAll: true,
-                    alwaysLinkToLastBuild: true,
-                    allowMissing: false
-                ])
-            }
-        }
     }
 
     post {
