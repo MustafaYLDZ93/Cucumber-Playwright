@@ -2,7 +2,7 @@ const report = require('multiple-cucumber-html-reporter');
 
 report.generate({
   jsonDir: './report', // Sadece report klasöründeki json dosyalarını oku
-  reportPath: './cucumber-report',
+  reportPath: './cucumber-report', // Raporun çıkacağı klasör
   reportName: 'Playwright Cucumber Raporu',
   pageTitle: 'Test Raporu',
   metadata: {
