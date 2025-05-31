@@ -62,13 +62,6 @@ pipeline {
             }
         }
 
-        stage('Publish Cucumber JSON Report') {
-            steps {
-                cucumber buildStatus: 'UNSTABLE', fileIncludePattern: '**/cucumber-report.json', sortingMethod: 'ALPHABETICAL'
-            }
-        }
-    }
-
     post {
         always {
             echo 'Pipeline completed'
