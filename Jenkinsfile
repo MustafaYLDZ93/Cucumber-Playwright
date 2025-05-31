@@ -63,19 +63,7 @@ pipeline {
             }
         }
 
-        stage('Publish HTML Report') {
-            steps {
-                publishHTML(target: [
-                    reportName: 'Cucumber HTML Raporu',
-                    reportDir: 'cucumber-report',
-                    reportFiles: 'index.html',
-                    keepAll: true,
-                    alwaysLinkToLastBuild: true,
-                    allowMissing: false
-                ])
-            }
-        }
-
+        // Publish HTML Report adımı kaldırıldı, sadece artifacts olarak sunulacak
     }
 
     post {
