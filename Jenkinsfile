@@ -57,6 +57,25 @@ pipeline {
             }
         }
 
+        stage('Publish JUnit Report') {
+            steps {
+                junit 'cucumber-report.xml'
+            }
+        }
+
+        stage('Publish HTML Report') {
+            steps {
+                publishHTML(target: [
+                    reportName: 'Cucumber HTML Raporu',
+                    reportDir: '.',
+                    reportFiles: 'cucumber-report.html',
+                    keepAll: true,
+                    alwaysLinkToLastBuild: true,
+                    allowMissing: false
+                ])
+            }
+        }
+
     }
 
     post {
