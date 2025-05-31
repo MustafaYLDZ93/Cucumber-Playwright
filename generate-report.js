@@ -1,7 +1,7 @@
 const report = require('multiple-cucumber-html-reporter');
 
 report.generate({
-  jsonDir: '.', // cucumber-report.json bu klasörde olmalı
+  jsonDir: '.',
   reportPath: './report',
   metadata: {
     browser: {
