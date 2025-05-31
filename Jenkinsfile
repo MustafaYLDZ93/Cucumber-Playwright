@@ -45,15 +45,15 @@ pipeline {
             steps {
                 script {
                     def tagOption = params.CUCUMBER_TAG?.trim() ? "--tags ${params.CUCUMBER_TAG}" : ""
-                    // JSON çıktısı oluştur
-                    sh "npx cucumber-js ${tagOption} --format json:report/cucumber-report.json --format html:cucumber-report.html"
+                    // Sadece klasik HTML raporu oluştur
+                    sh "npx cucumber-js ${tagOption} --format html:cucumber-report.html"
                 }
             }
         }
 
         stage('Archive Reports') {
             steps {
-                archiveArtifacts artifacts: 'cucumber-report/**'
+                archiveArtifacts artifacts: 'cucumber-report.html'
             }
         }
 
