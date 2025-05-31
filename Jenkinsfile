@@ -52,7 +52,7 @@ pipeline {
 
         stage('Archive Reports') {
             steps {
-                archiveArtifacts artifacts: '*.html, *.xml, *.json'
+                archiveArtifacts artifacts: '*.html'
             }
         }
 
