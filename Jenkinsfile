@@ -69,7 +69,18 @@ pipeline {
             }
         }
 
-        
+        stage('HTML Raporu Yayınla') {
+            steps {
+                publishHTML(target: [
+                    reportName: 'Cucumber HTML Raporu',
+                    reportDir: 'report',
+                    reportFiles: 'index.html',
+                    keepAll: true,
+                    alwaysLinkToLastBuild: true,
+                    allowMissing: false
+                ])
+            }
+        }
     }
 
     post {
