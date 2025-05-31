@@ -45,27 +45,22 @@ pipeline {
             steps {
                 script {
                     def tagOption = params.CUCUMBER_TAG?.trim() ? "--tags ${params.CUCUMBER_TAG}" : ""
-                    sh "npx cucumber-js ${tagOption} --format html:cucumber-report.html"
+                    // JSON çıktısı oluştur
+                    sh "npx cucumber-js ${tagOption} --format json:report/cucumber-report.json"
                 }
-            }
-        }
-
-        stage('Archive Reports') {
-            steps {
-                archiveArtifacts artifacts: '*.html'
-            }
-        }
-
-        stage('Publish JUnit Report') {
-            steps {
-                junit 'cucumber-report.xml'
             }
         }
 
         stage('Generate Fancy Report') {
             steps {
+                sh 'rm -rf cucumber-report' // Eski rapor varsa sil
                 sh 'node generate-report.js'
-                archiveArtifacts artifacts: 'report/**'
+            }
+        }
+
+        stage('Archive Reports') {
+            steps {
+                archiveArtifacts artifacts: 'cucumber-report/**'
             }
         }
 
@@ -73,7 +68,7 @@ pipeline {
             steps {
                 publishHTML(target: [
                     reportName: 'Cucumber HTML Raporu',
-                    reportDir: 'report',
+                    reportDir: 'cucumber-report',
                     reportFiles: 'index.html',
                     keepAll: true,
                     alwaysLinkToLastBuild: true,
