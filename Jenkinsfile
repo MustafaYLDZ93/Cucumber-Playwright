@@ -64,6 +64,12 @@ pipeline {
             }
         }
 
+        stage('Archive Report Assets') {
+            steps {
+                archiveArtifacts artifacts: 'cucumber-report/assets/**'
+            }
+        }
+
         stage('HTML Raporu Yayınla') {
             steps {
                 publishHTML(target: [
