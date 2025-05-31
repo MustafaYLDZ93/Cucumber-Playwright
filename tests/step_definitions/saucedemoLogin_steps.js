@@ -71,9 +71,10 @@ Then('Hata mesajını gördüğümü doğrula', async () => {
     await page.waitForTimeout(1000);
 });
 
-After(async function () {
+After({ name: 'Tarayıcıyı kapat' }, async function () {
   if (browser) {
     await browser.close();
   }
 });
+
 
