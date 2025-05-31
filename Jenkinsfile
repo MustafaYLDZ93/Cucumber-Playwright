@@ -1,13 +1,12 @@
 pipeline {
-    agent {
-        docker {
-            image 'mcr.microsoft.com/playwright:v1.44.0-jammy'
-            args '-u root' // npm install için izin gerekir
-        }
-    }
+    agent any
 
     parameters {
         string(name: 'CUCUMBER_TAG', defaultValue: '', description: 'Run tests with this tag (e.g., @login, @register). Leave empty to run all tests.')
+    }
+
+    environment {
+        PATH = "/opt/homebrew/bin:/usr/local/bin:$PATH"
     }
 
     stages {
@@ -17,9 +16,28 @@ pipeline {
             }
         }
 
+        stage('Environment Check') {
+            steps {
+                sh '''
+                    echo "=== PATH ==="
+                    echo $PATH
+                    node --version
+                    npm --version
+                    pwd
+                    ls -la
+                '''
+            }
+        }
+
         stage('Install Dependencies') {
             steps {
-                sh 'npm ci'
+                sh 'npm install'
+            }
+        }
+
+        stage('Install Playwright Browsers') {
+            steps {
+                sh 'npx playwright install --with-deps'
             }
         }
 
@@ -27,6 +45,7 @@ pipeline {
             steps {
                 script {
                     def tagOption = params.CUCUMBER_TAG?.trim() ? "--tags ${params.CUCUMBER_TAG}" : ""
+                    // Klasik HTML ve JUnit XML raporları oluştur
                     sh "npx cucumber-js ${tagOption} --format html:cucumber-report.html --format junit:cucumber-report.xml"
                 }
             }
@@ -34,7 +53,7 @@ pipeline {
 
         stage('Archive Reports') {
             steps {
-                archiveArtifacts artifacts: 'cucumber-report.html,cucumber-report.xml', allowEmptyArchive: true
+                archiveArtifacts artifacts: 'cucumber-report.html,cucumber-report.xml'
             }
         }
 
@@ -43,6 +62,8 @@ pipeline {
                 junit 'cucumber-report.xml'
             }
         }
+
+        // Publish HTML Report adımı kaldırıldı, sadece artifacts olarak sunulacak
     }
 
     post {
