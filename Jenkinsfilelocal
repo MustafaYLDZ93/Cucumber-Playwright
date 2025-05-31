@@ -1,0 +1,76 @@
+pipeline {
+    agent any
+
+    parameters {
+        string(name: 'CUCUMBER_TAG', defaultValue: '', description: 'Run tests with this tag (örneğin: @login)')
+    }
+
+    environment {
+        PATH = "/opt/homebrew/bin:/usr/local/bin:$PATH"
+    }
+
+    stages {
+        stage('Use Local Project') {
+            steps {
+                dir('/Users/musti/Desktop/testsWebUI/testsCucumberBDD/cucumber-playwright') {
+                    sh '''
+                        echo "=== Working Directory ==="
+                        pwd
+                        ls -la
+                    '''
+                }
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                dir('/Users/musti/Desktop/testsWebUI/testsCucumberBDD/cucumber-playwright') {
+                    sh 'npm install'
+                }
+            }
+        }
+
+        stage('Install Playwright Browsers') {
+            steps {
+                dir('/Users/musti/Desktop/testsWebUI/testsCucumberBDD/cucumber-playwright') {
+                    sh 'npx playwright install --with-deps'
+                }
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                dir('/Users/musti/Desktop/testsWebUI/testsCucumberBDD/cucumber-playwright') {
+                    script {
+                        def tagOption = params.CUCUMBER_TAG?.trim() ? "--tags ${params.CUCUMBER_TAG}" : ""
+                        sh "npx cucumber-js ${tagOption} --format html:cucumber-report.html --format junit:cucumber-report.xml"
+                    }
+                }
+            }
+        }
+
+        stage('Archive Reports') {
+            steps {
+                archiveArtifacts artifacts: 'testsWebUI/testsCucumberBDD/cucumber-playwright/*.html,testsWebUI/testsCucumberBDD/cucumber-playwright/*.xml'
+            }
+        }
+
+        stage('Publish JUnit Report') {
+            steps {
+                junit 'testsWebUI/testsCucumberBDD/cucumber-playwright/cucumber-report.xml'
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline completed'
+        }
+        success {
+            echo 'Pipeline succeeded!'
+        }
+        failure {
+            echo 'Pipeline failed!'
+        }
+    }
+}
