@@ -67,8 +67,8 @@ pipeline {
             steps {
                 publishHTML(target: [
                     reportName: 'Cucumber HTML Raporu',
-                    reportDir: '.',
-                    reportFiles: 'cucumber-report.html',
+                    reportDir: 'cucumber-report',
+                    reportFiles: 'index.html',
                     keepAll: true,
                     alwaysLinkToLastBuild: true,
                     allowMissing: false
