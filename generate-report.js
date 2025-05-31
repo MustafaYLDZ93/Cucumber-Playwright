@@ -1,14 +1,16 @@
 const report = require('multiple-cucumber-html-reporter');
 
 report.generate({
-  jsonDir: '.',
-  reportPath: './report',
+  jsonDir: './report', // Sadece report klasöründeki json dosyalarını oku
+  reportPath: './cucumber-report',
+  reportName: 'Playwright Cucumber Raporu',
+  pageTitle: 'Test Raporu',
   metadata: {
     browser: {
       name: 'chrome',
       version: '120'
     },
-    device: 'Jenkins Agent',
+    device: 'Local Machine',
     platform: {
       name: 'macOS',
       version: '13'
@@ -18,7 +20,7 @@ report.generate({
     title: 'Test Bilgileri',
     data: [
       { label: 'Proje', value: 'Cucumber Playwright' },
-      { label: 'Ortam', value: 'Jenkins' },
+      { label: 'Ortam', value: 'Local' },
       { label: 'Test Tarihi', value: new Date().toLocaleString('tr-TR') }
     ]
   }

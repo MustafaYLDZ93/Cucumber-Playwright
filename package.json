@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "cucumber-js --format summary",
+    "test": "cucumber-js --format summary json:cucumber-report.json",
     "test:playwright": "npx playwright test"
   },
   "keywords": [],

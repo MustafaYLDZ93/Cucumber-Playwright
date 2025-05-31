@@ -1,0 +1,870 @@
+[
+  {
+    "description": "",
+    "elements": [
+      {
+        "description": "",
+        "id": "playwright-website-test;verify-playwright-website-content",
+        "keyword": "Scenario",
+        "line": 4,
+        "name": "Verify Playwright website content",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 5,
+            "name": "I navigate to the Playwright homepage",
+            "match": {
+              "location": "tests/step_definitions/PlaywrightAsserion.steps.js:9"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 817620417
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 6,
+            "name": "I should see the banner",
+            "match": {
+              "location": "tests/step_definitions/PlaywrightAsserion.steps.js:15"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 35420708
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 7,
+            "name": "the banner should contain the text \"Get started\"",
+            "match": {
+              "location": "tests/step_definitions/PlaywrightAsserion.steps.js:21"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 9688291
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 8,
+            "name": "I click on the \"Get started\" link",
+            "match": {
+              "location": "tests/step_definitions/PlaywrightAsserion.steps.js:27"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 57461125
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 9,
+            "name": "I should see the Installation header",
+            "match": {
+              "location": "tests/step_definitions/PlaywrightAsserion.steps.js:31"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 97745082
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 10,
+            "name": "I should see the Docs sidebar",
+            "match": {
+              "location": "tests/step_definitions/PlaywrightAsserion.steps.js:37"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 35229250
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 11,
+            "name": "I should see the IntroductionInstalling text",
+            "match": {
+              "location": "tests/step_definitions/PlaywrightAsserion.steps.js:43"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 8030416
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 192583
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 73750
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 224167
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 22190166
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@playwrightassertion",
+            "line": 1
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "playwright-website-test",
+    "line": 2,
+    "keyword": "Feature",
+    "name": "Playwright website test",
+    "tags": [
+      {
+        "name": "@playwrightassertion",
+        "line": 1
+      }
+    ],
+    "uri": "tests/features/PlaywrightAssertion.feature"
+  },
+  {
+    "description": "",
+    "elements": [
+      {
+        "description": "",
+        "id": "login-user;successful-user-login",
+        "keyword": "Scenario",
+        "line": 4,
+        "name": "Successful user login",
+        "steps": [
+          {
+            "arguments": [
+              {
+                "rows": [
+                  {
+                    "cells": [
+                      "username",
+                      "password"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Leanne",
+                      "Graham"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "keyword": "Given ",
+            "line": 5,
+            "name": "I send a POST request to the user endpoint with the following payload:",
+            "match": {
+              "location": "tests/step_definitions/login.js:9"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 495771250
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 8,
+            "name": "the response status code should be 201",
+            "match": {
+              "location": "tests/step_definitions/login.js:18"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 235249
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 9,
+            "name": "the response body should contain \"Leanne Graham\"",
+            "match": {
+              "location": "tests/step_definitions/login.js:25"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 807624
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 77042
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 30000
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 29250
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 1736332
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@apiLogin",
+            "line": 1
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "login-user",
+    "line": 2,
+    "keyword": "Feature",
+    "name": "Login User",
+    "tags": [
+      {
+        "name": "@apiLogin",
+        "line": 1
+      }
+    ],
+    "uri": "tests/features/login.feature"
+  },
+  {
+    "description": "",
+    "elements": [
+      {
+        "description": "",
+        "id": "2-sepete-ekle;2-successful-login-and-logout",
+        "keyword": "Scenario",
+        "line": 6,
+        "name": "2-Successful login and logout",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am on the login page",
+            "match": {
+              "location": "tests/step_definitions/saucedemoAddtoChart.steps.js:11"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1348069958
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 8,
+            "name": "I login with valid credentials",
+            "match": {
+              "location": "tests/step_definitions/saucedemoAddtoChart.steps.js:17"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 125512459
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 9,
+            "name": "I should see the inventory list",
+            "match": {
+              "location": "tests/step_definitions/saucedemoAddtoChart.steps.js:24"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1861833
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 10,
+            "name": "I logout",
+            "match": {
+              "location": "tests/step_definitions/saucedemoAddtoChart.steps.js:29"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 940041999
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 58624
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 22499
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 22127666
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 341333
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@saucedemo",
+            "line": 1
+          },
+          {
+            "name": "@addtochart",
+            "line": 2
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "2-sepete-ekle;2-add-item-to-cart-and-verify",
+        "keyword": "Scenario",
+        "line": 12,
+        "name": "2-Add item to cart and verify",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 13,
+            "name": "I am on the login page",
+            "match": {
+              "location": "tests/step_definitions/saucedemoAddtoChart.steps.js:11"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 747370125
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 14,
+            "name": "I login with valid credentials",
+            "match": {
+              "location": "tests/step_definitions/saucedemoAddtoChart.steps.js:17"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 134362542
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 15,
+            "name": "I add the first item to the cart",
+            "match": {
+              "location": "tests/step_definitions/saucedemoAddtoChart.steps.js:39"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 37470374
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 16,
+            "name": "the cart badge should display \"1\"",
+            "match": {
+              "location": "tests/step_definitions/saucedemoAddtoChart.steps.js:44"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 4056792
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 17,
+            "name": "I should see the item in the cart",
+            "match": {
+              "location": "tests/step_definitions/saucedemoAddtoChart.steps.js:51"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 30280207
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 27834
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 12999
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 18776499
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 347208
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@saucedemo",
+            "line": 1
+          },
+          {
+            "name": "@addtochart",
+            "line": 2
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "2-sepete-ekle",
+    "line": 4,
+    "keyword": "Feature",
+    "name": "2-Sepete Ekle",
+    "tags": [
+      {
+        "name": "@saucedemo",
+        "line": 1
+      },
+      {
+        "name": "@addtochart",
+        "line": 2
+      }
+    ],
+    "uri": "tests/features/saucedemoAddtoChart.feature"
+  },
+  {
+    "description": "",
+    "elements": [
+      {
+        "description": "",
+        "id": "add-to-chart;tüm-ürünleri-sepete-ekleme-doğrulama",
+        "keyword": "Scenario",
+        "line": 6,
+        "name": "Tüm ürünleri sepete ekleme doğrulama",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "kullanıcı Saucedemo ana sayfasına gider",
+            "match": {
+              "location": "tests/step_definitions/saucedemoForLoopAddtoChart.steps.js:9"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 745364166
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 8,
+            "name": "kullanıcı adı ve şifre ile giriş yapıyorum",
+            "match": {
+              "location": "tests/step_definitions/saucedemoForLoopAddtoChart.steps.js:15"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 129283207
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 9,
+            "name": "tüm ürünleri sepete ekler",
+            "match": {
+              "location": "tests/step_definitions/saucedemoForLoopAddtoChart.steps.js:21"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 402883458
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 10,
+            "name": "sepetteki ürün sayısı doğrulanır",
+            "match": {
+              "location": "tests/step_definitions/saucedemoForLoopAddtoChart.steps.js:36"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2182208
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 26166
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 19380375
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 302916
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 199833
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@saucedemo",
+            "line": 1
+          },
+          {
+            "name": "@forloop",
+            "line": 2
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "add-to-chart",
+    "line": 4,
+    "keyword": "Feature",
+    "name": "Add To Chart",
+    "tags": [
+      {
+        "name": "@saucedemo",
+        "line": 1
+      },
+      {
+        "name": "@forloop",
+        "line": 2
+      }
+    ],
+    "uri": "tests/features/saucedemoForLoopAddtoChart.feature"
+  },
+  {
+    "description": "",
+    "elements": [
+      {
+        "description": "",
+        "id": "saucedemo-login-success---unsuccessful;1-successful-login-and-logout",
+        "keyword": "Scenario",
+        "line": 5,
+        "name": "1-Successful login and logout",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "Ana sayfaya gidiyorum",
+            "match": {
+              "location": "tests/step_definitions/saucedemoLogin_steps.js:11"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 740324499
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 7,
+            "name": "Geçerli kullanıcı adı ve şifre ile giriş yapıyorum",
+            "match": {
+              "location": "tests/step_definitions/saucedemoLogin_steps.js:18"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 113856999
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 8,
+            "name": "Envanter sayfasına yönlendirildiğimi doğrula",
+            "match": {
+              "location": "tests/step_definitions/saucedemoLogin_steps.js:25"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 14304749
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 9,
+            "name": "Hesabımdan çıkış yapıyorum",
+            "match": {
+              "location": "tests/step_definitions/saucedemoLogin_steps.js:33"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1012708042
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 10,
+            "name": "Giriş sayfasına yönlendirildiğimi doğrula",
+            "match": {
+              "location": "tests/step_definitions/saucedemoLogin_steps.js:48"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 12249000
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 22711750
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 343542
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 202708
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 195041
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@login1",
+            "line": 1
+          },
+          {
+            "name": "@positive",
+            "line": 4
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "saucedemo-login-success---unsuccessful;1-unsuccessful-login-and-error-message-verification",
+        "keyword": "Scenario",
+        "line": 13,
+        "name": "1-Unsuccessful login and error message verification",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 14,
+            "name": "Ana sayfaya gidiyorum",
+            "match": {
+              "location": "tests/step_definitions/saucedemoLogin_steps.js:11"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 771794625
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 15,
+            "name": "Geçersiz kullanıcı adı ve şifre ile giriş yapıyorum",
+            "match": {
+              "location": "tests/step_definitions/saucedemoLogin_steps.js:57"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1128363167
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 16,
+            "name": "Hata mesajını gördüğümü doğrula",
+            "match": {
+              "location": "tests/step_definitions/saucedemoLogin_steps.js:65"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1008831415
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 28976249
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 436917
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 239792
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 208083
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@login1",
+            "line": 1
+          },
+          {
+            "name": "@negative",
+            "line": 12
+          },
+          {
+            "name": "@regression",
+            "line": 12
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "saucedemo-login-success---unsuccessful",
+    "line": 2,
+    "keyword": "Feature",
+    "name": "SauceDemo Login Success - Unsuccessful",
+    "tags": [
+      {
+        "name": "@login1",
+        "line": 1
+      }
+    ],
+    "uri": "tests/features/saucedemologin.feature"
+  }
+]
