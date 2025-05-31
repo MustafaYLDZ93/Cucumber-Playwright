@@ -62,6 +62,13 @@ pipeline {
             }
         }
 
+        stage('Generate Fancy Report') {
+            steps {
+                sh 'node generate-report.js'
+                archiveArtifacts artifacts: 'report/**'
+            }
+        }
+
         
     }
 
