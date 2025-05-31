@@ -46,7 +46,7 @@ pipeline {
                 script {
                     def tagOption = params.CUCUMBER_TAG?.trim() ? "--tags ${params.CUCUMBER_TAG}" : ""
                     // JSON çıktısı oluştur
-                    sh "npx cucumber-js ${tagOption} --format json:report/cucumber-report.json"
+                    sh "npx cucumber-js ${tagOption} --format json:report/cucumber-report.json --format html:cucumber-report.html"
                 }
             }
         }
