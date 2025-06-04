@@ -1,16 +1,16 @@
 pipeline {
     agent any
-
     parameters {
         string(name: 'CUCUMBER_TAG', defaultValue: '', description: 'Run tests with this tag (e.g., @login, @register). Leave empty to run all tests.')
     }
-
     environment {
         WORKDIR = "${env.WORKSPACE}"
+        // ARM64 için önce denenir, yoksa AMD64 emülasyonu kullanılır
         PLAYWRIGHT_IMAGE = "mcr.microsoft.com/playwright:v1.52.0-jammy"
-        DOCKER_PLATFORM = "--platform=linux/amd64"
+        DOCKER_PLATFORM = "--platform=linux/arm64"
+        // Fallback için AMD64 platform
+        DOCKER_PLATFORM_FALLBACK = "--platform=linux/amd64"
     }
-
     stages {
         stage('Checkout') {
             steps {
@@ -19,77 +19,93 @@ pipeline {
                 echo '=== Checkout aşaması bitti ==='
             }
         }
-
         stage('Environment Check') {
             steps {
                 echo '=== Environment Check başlıyor ==='
-                sh '''
-                  docker run --rm -i --init --ipc=host $DOCKER_PLATFORM -v "$WORKDIR:/work" -w /work $PLAYWRIGHT_IMAGE bash <<EOF
-                    echo "=== PATH ==="
-                    echo $PATH
-                    node --version
-                    npm --version
-                    pwd
-                    ls -la
+                script {
+                    try {
+                        sh '''
+                            docker run --rm -i --init --ipc=host $DOCKER_PLATFORM -v "$WORKDIR:/work" -w /work $PLAYWRIGHT_IMAGE bash <<EOF
+                                echo "=== System Info ==="
+                                uname -m
+                                echo "=== PATH ==="
+                                echo $PATH
+                                node --version
+                                npm --version
+                                pwd
+                                ls -la
 EOF
-                '''
+                        '''
+                    } catch (Exception e) {
+                        echo "ARM64 çalışmadı, AMD64 emülasyonu deneniyor..."
+                        env.DOCKER_PLATFORM = env.DOCKER_PLATFORM_FALLBACK
+                        sh '''
+                            docker run --rm -i --init --ipc=host $DOCKER_PLATFORM -v "$WORKDIR:/work" -w /work $PLAYWRIGHT_IMAGE bash <<EOF
+                                echo "=== System Info (Emulated) ==="
+                                uname -m
+                                echo "=== PATH ==="
+                                echo $PATH
+                                node --version
+                                npm --version
+                                pwd
+                                ls -la
+EOF
+                        '''
+                    }
+                }
                 echo '=== Environment Check bitti ==='
             }
         }
-
         stage('Install Dependencies') {
             steps {
                 echo '=== npm install başlıyor ==='
                 sh '''
-                  docker run --rm -i --init --ipc=host $DOCKER_PLATFORM -v "$WORKDIR:/work" -w /work $PLAYWRIGHT_IMAGE npm install || { echo "npm install HATASI!"; exit 1; }
+                    docker run --rm -i --init --ipc=host $DOCKER_PLATFORM -v "$WORKDIR:/work" -w /work $PLAYWRIGHT_IMAGE npm install || { echo "npm install HATASI!"; exit 1; }
                 '''
                 echo '=== npm install bitti ==='
             }
         }
-
         stage('Install Playwright Browsers') {
             steps {
                 echo '=== Playwright browser kurulumu başlıyor ==='
                 sh '''
-                  docker run --rm -i --init --ipc=host $DOCKER_PLATFORM -v "$WORKDIR:/work" -w /work $PLAYWRIGHT_IMAGE npx playwright install
+                    docker run --rm -i --init --ipc=host $DOCKER_PLATFORM -v "$WORKDIR:/work" -w /work $PLAYWRIGHT_IMAGE npx playwright install || { echo "Browser kurulum HATASI!"; exit 1; }
                 '''
                 echo '=== Playwright browser kurulumu bitti ==='
             }
         }
-
         stage('Run Tests') {
             steps {
                 echo '=== Testler başlıyor ==='
                 script {
                     def tagOption = params.CUCUMBER_TAG?.trim() ? "--tags ${params.CUCUMBER_TAG}" : ""
                     sh """
-                      docker run --rm -i --init --ipc=host $DOCKER_PLATFORM -v "$WORKDIR:/work" -w /work $PLAYWRIGHT_IMAGE bash -c "npx cucumber-js ${tagOption} --format html:cucumber-report.html --format junit:cucumber-report.xml || { echo 'Testler HATASI!'; exit 1; }"
+                        docker run --rm -i --init --ipc=host $DOCKER_PLATFORM -v "$WORKDIR:/work" -w /work $PLAYWRIGHT_IMAGE bash -c "npx cucumber-js ${tagOption} --format html:cucumber-report.html --format junit:cucumber-report.xml || { echo 'Testler HATASI!'; exit 1; }"
                     """
                 }
                 echo '=== Testler bitti ==='
             }
         }
-
         stage('Archive Reports') {
             steps {
                 echo '=== Raporlar arşivleniyor ==='
-                archiveArtifacts artifacts: 'cucumber-report.html,cucumber-report.xml'
+                archiveArtifacts artifacts: 'cucumber-report.html,cucumber-report.xml', allowEmptyArchive: true
                 echo '=== Raporlar arşivlendi ==='
             }
         }
-
         stage('Publish JUnit Report') {
             steps {
                 echo '=== JUnit raporu yayınlanıyor ==='
-                junit 'cucumber-report.xml'
+                junit testResults: 'cucumber-report.xml', allowEmptyResults: true
                 echo '=== JUnit raporu yayınlandı ==='
             }
         }
     }
-
     post {
         always {
             echo 'Pipeline completed'
+            // Cleanup işlemleri
+            sh 'docker system prune -f || true'
         }
         success {
             echo 'Pipeline succeeded!'
