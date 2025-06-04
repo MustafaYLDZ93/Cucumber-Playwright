@@ -8,6 +8,7 @@ pipeline {
     environment {
         WORKDIR = "${env.WORKSPACE}"
         PLAYWRIGHT_IMAGE = "mcr.microsoft.com/playwright:v1.52.0-jammy"
+        DOCKER_PLATFORM = "--platform=linux/amd64"
     }
 
     stages {
@@ -23,14 +24,14 @@ pipeline {
             steps {
                 echo '=== Environment Check başlıyor ==='
                 sh '''
-                  docker run --rm -it --init --ipc=host -v "$WORKDIR:/work" -w /work $PLAYWRIGHT_IMAGE bash -c '
+                  docker run --rm -i --init --ipc=host $DOCKER_PLATFORM -v "$WORKDIR:/work" -w /work $PLAYWRIGHT_IMAGE bash <<EOF
                     echo "=== PATH ==="
                     echo $PATH
                     node --version
                     npm --version
                     pwd
                     ls -la
-                  '
+EOF
                 '''
                 echo '=== Environment Check bitti ==='
             }
@@ -40,7 +41,7 @@ pipeline {
             steps {
                 echo '=== npm install başlıyor ==='
                 sh '''
-                  docker run --rm -it --init --ipc=host -v "$WORKDIR:/work" -w /work $PLAYWRIGHT_IMAGE npm install || { echo "npm install HATASI!"; exit 1; }
+                  docker run --rm -i --init --ipc=host $DOCKER_PLATFORM -v "$WORKDIR:/work" -w /work $PLAYWRIGHT_IMAGE npm install || { echo "npm install HATASI!"; exit 1; }
                 '''
                 echo '=== npm install bitti ==='
             }
@@ -50,7 +51,7 @@ pipeline {
             steps {
                 echo '=== Playwright browser kurulumu başlıyor ==='
                 sh '''
-                  docker run --rm -it --init --ipc=host -v "$WORKDIR:/work" -w /work $PLAYWRIGHT_IMAGE npx playwright install
+                  docker run --rm -i --init --ipc=host $DOCKER_PLATFORM -v "$WORKDIR:/work" -w /work $PLAYWRIGHT_IMAGE npx playwright install
                 '''
                 echo '=== Playwright browser kurulumu bitti ==='
             }
@@ -62,7 +63,7 @@ pipeline {
                 script {
                     def tagOption = params.CUCUMBER_TAG?.trim() ? "--tags ${params.CUCUMBER_TAG}" : ""
                     sh """
-                      docker run --rm -it --init --ipc=host -v \"$WORKDIR:/work\" -w /work $PLAYWRIGHT_IMAGE bash -c 'npx cucumber-js ${tagOption} --format html:cucumber-report.html --format junit:cucumber-report.xml || { echo "Testler HATASI!"; exit 1; }'
+                      docker run --rm -i --init --ipc=host $DOCKER_PLATFORM -v "$WORKDIR:/work" -w /work $PLAYWRIGHT_IMAGE bash -c "npx cucumber-js ${tagOption} --format html:cucumber-report.html --format junit:cucumber-report.xml || { echo 'Testler HATASI!'; exit 1; }"
                     """
                 }
                 echo '=== Testler bitti ==='
