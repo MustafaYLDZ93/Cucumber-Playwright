@@ -2,7 +2,7 @@ pipeline {
     agent {
         docker {
             image 'mcr.microsoft.com/playwright:v1.43.1-jammy'
-            args '-u root:root' // root olarak çalıştırmak için, gerekirse kaldırılabilir
+            args '-u root:root'
         }
     }
 
@@ -13,12 +13,15 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
+                echo '=== Checkout aşaması başlıyor ==='
                 checkout scm
+                echo '=== Checkout aşaması bitti ==='
             }
         }
 
         stage('Environment Check') {
             steps {
+                echo '=== Environment Check başlıyor ==='
                 sh '''
                     echo "=== PATH ==="
                     echo $PATH
@@ -27,41 +30,54 @@ pipeline {
                     pwd
                     ls -la
                 '''
+                echo '=== Environment Check bitti ==='
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                sh 'npm install'
+                echo '=== npm install başlıyor ==='
+                sh '''
+                  npm install || { echo "npm install HATASI!"; npm -v; node -v; ls -la; exit 1; }
+                '''
+                echo '=== npm install bitti ==='
             }
         }
 
-        // Playwright docker image ile tarayıcılar zaten kurulu, bu adım genellikle gereksizdir
-        // Ancak local geliştirme ile uyum için bırakılabilir
         stage('Install Playwright Browsers') {
             steps {
+                echo '=== Playwright browser kurulumu başlıyor ==='
                 sh 'npx playwright install'
+                echo '=== Playwright browser kurulumu bitti ==='
             }
         }
 
         stage('Run Tests') {
             steps {
+                echo '=== Testler başlıyor ==='
                 script {
                     def tagOption = params.CUCUMBER_TAG?.trim() ? "--tags ${params.CUCUMBER_TAG}" : ""
-                    sh "npx cucumber-js ${tagOption} --format html:cucumber-report.html --format junit:cucumber-report.xml"
+                    sh '''
+                      npx cucumber-js ${tagOption} --format html:cucumber-report.html --format junit:cucumber-report.xml || { echo "Testler HATASI!"; exit 1; }
+                    '''
                 }
+                echo '=== Testler bitti ==='
             }
         }
 
         stage('Archive Reports') {
             steps {
+                echo '=== Raporlar arşivleniyor ==='
                 archiveArtifacts artifacts: 'cucumber-report.html,cucumber-report.xml'
+                echo '=== Raporlar arşivlendi ==='
             }
         }
 
         stage('Publish JUnit Report') {
             steps {
+                echo '=== JUnit raporu yayınlanıyor ==='
                 junit 'cucumber-report.xml'
+                echo '=== JUnit raporu yayınlandı ==='
             }
         }
     }
