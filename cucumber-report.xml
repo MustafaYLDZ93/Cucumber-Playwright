@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
-<testsuite name="Cucumber" time="5.643" tests="2" skipped="0" failures="0" errors="0" timestamp="2025-05-31T13:38:57.341Z">
-  <testcase classname="SauceDemo Login Success - Unsuccessful" name="1-Successful login and logout" time="2.56">
+<testsuite name="Cucumber" time="5.09" tests="2" skipped="0" failures="0" errors="0" timestamp="2025-06-04T02:26:56.090Z">
+  <testcase classname="SauceDemo Login Success - Unsuccessful" name="1-Successful login and logout" time="2.13">
     <system-out><![CDATA[Given Ana sayfaya gidiyorum.................................................passed
 When Geçerli kullanıcı adı ve şifre ile giriş yapıyorum.....................passed
 Then Envanter sayfasına yönlendirildiğimi doğrula...........................passed
 When Hesabımdan çıkış yapıyorum.............................................passed
 Then Giriş sayfasına yönlendirildiğimi doğrula..............................passed]]></system-out>
   </testcase>
-  <testcase classname="SauceDemo Login Success - Unsuccessful" name="1-Unsuccessful login and error message verification" time="3.071">
+  <testcase classname="SauceDemo Login Success - Unsuccessful" name="1-Unsuccessful login and error message verification" time="2.947">
     <system-out><![CDATA[Given Ana sayfaya gidiyorum.................................................passed
 When Geçersiz kullanıcı adı ve şifre ile giriş yapıyorum....................passed
 Then Hata mesajını gördüğümü doğrula........................................passed]]></system-out>

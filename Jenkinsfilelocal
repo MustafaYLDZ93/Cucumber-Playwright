@@ -2,67 +2,76 @@ pipeline {
     agent any
 
     parameters {
-        string(name: 'CUCUMBER_TAG', defaultValue: '', description: 'Run tests with this tag (e.g., @login, @register). Leave empty to run all tests.')
+        string(name: 'CUCUMBER_TAG', defaultValue: '', description: 'Run tests with this tag (örneğin: @login)')
     }
 
     environment {
         PATH = "/opt/homebrew/bin:/usr/local/bin:$PATH"
-        TEST_DIR = "/Users/musti/Desktop/testsWebUI/testsCucumberBDD/cucumber-playwright"
     }
 
     stages {
-        stage('Checkout') {
+        stage('Use Local Project') {
             steps {
-                checkout scm
-            }
-        }
-
-        stage('Environment Check') {
-            steps {
-                sh '''
-                    echo "=== PATH ==="
-                    echo $PATH
-                    node --version
-                    npm --version
-                    pwd
-                    ls -la
-                '''
+                dir('/Users/musti/Desktop/testsWebUI/testsCucumberBDD/cucumber-playwright') {
+                    sh '''
+                        echo "=== Working Directory ==="
+                        pwd
+                        ls -la
+                    '''
+                }
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                sh 'npm install'
+                dir('/Users/musti/Desktop/testsWebUI/testsCucumberBDD/cucumber-playwright') {
+                    sh 'npm install'
+                }
             }
         }
 
         stage('Install Playwright Browsers') {
             steps {
-                sh 'npx playwright install --with-deps'
+                dir('/Users/musti/Desktop/testsWebUI/testsCucumberBDD/cucumber-playwright') {
+                    sh 'npx playwright install --with-deps'
+                }
             }
         }
 
         stage('Run Tests') {
             steps {
-                script {
-                    def tagOption = params.CUCUMBER_TAG?.trim() ? "--tags ${params.CUCUMBER_TAG}" : ""
-                    sh "npx cucumber-js ${tagOption} --format html:${env.TEST_DIR}/cucumber-report.html --format junit:${env.TEST_DIR}/cucumber-report.xml"
+                dir('/Users/musti/Desktop/testsWebUI/testsCucumberBDD/cucumber-playwright') {
+                    script {
+                        def tagOption = params.CUCUMBER_TAG?.trim() ? "--tags ${params.CUCUMBER_TAG}" : ""
+                        sh "npx cucumber-js ${tagOption} --format html:cucumber-report.html --format junit:cucumber-report.xml"
+                    }
                 }
             }
         }
 
         stage('Archive Reports') {
             steps {
-                dir(env.TEST_DIR) {
-                    archiveArtifacts artifacts: 'cucumber-report.html,cucumber-report.xml'
+                dir('/Users/musti/Desktop/testsWebUI/testsCucumberBDD/cucumber-playwright') {
+                    archiveArtifacts artifacts: 'cucumber-report.html,cucumber-report.xml,cucumber-report/**,report/**'
                 }
             }
         }
 
         stage('Publish JUnit Report') {
             steps {
-                dir(env.TEST_DIR) {
+                dir('/Users/musti/Desktop/testsWebUI/testsCucumberBDD/cucumber-playwright') {
                     junit 'cucumber-report.xml'
+                }
+            }
+        }
+
+        stage('Add Build Info to HTML Report') {
+            steps {
+                dir('/Users/musti/Desktop/testsWebUI/testsCucumberBDD/cucumber-playwright') {
+                    sh '''
+                        BUILD_INFO="Koşulan Jenkins Build Numarası: ${BUILD_NUMBER:-Local Çalıştırma}"
+                        sed -i '' "s|<body>|<body><div style='background:#ffe;border-bottom:1px solid #ccc;padding:8px;color:#333;font-weight:bold;'>$BUILD_INFO</div>|" cucumber-report/index.html
+                    '''
                 }
             }
         }
