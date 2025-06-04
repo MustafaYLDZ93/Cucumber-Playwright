@@ -1,13 +1,12 @@
 pipeline {
-    agent {
-        docker {
-            image 'mcr.microsoft.com/playwright:v1.43.1-jammy'
-            args '-u root:root' // root olarak çalıştırmak için, gerekirse kaldırılabilir
-        }
-    }
+    agent any
 
     parameters {
         string(name: 'CUCUMBER_TAG', defaultValue: '', description: 'Run tests with this tag (e.g., @login, @register). Leave empty to run all tests.')
+    }
+
+    environment {
+        PATH = "/opt/homebrew/bin:/usr/local/bin:$PATH"
     }
 
     stages {
@@ -36,8 +35,6 @@ pipeline {
             }
         }
 
-        // Playwright docker image ile tarayıcılar zaten kurulu, bu adım genellikle gereksizdir
-        // Ancak local geliştirme ile uyum için bırakılabilir
         stage('Install Playwright Browsers') {
             steps {
                 sh 'npx playwright install'
@@ -48,6 +45,7 @@ pipeline {
             steps {
                 script {
                     def tagOption = params.CUCUMBER_TAG?.trim() ? "--tags ${params.CUCUMBER_TAG}" : ""
+                    // Klasik HTML ve JUnit XML raporları oluştur
                     sh "npx cucumber-js ${tagOption} --format html:cucumber-report.html --format junit:cucumber-report.xml"
                 }
             }
@@ -64,6 +62,8 @@ pipeline {
                 junit 'cucumber-report.xml'
             }
         }
+
+        // Publish HTML Report adımı kaldırıldı, sadece artifacts olarak sunulacak
     }
 
     post {
