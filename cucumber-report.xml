@@ -1,13 +1,46 @@
 <?xml version="1.0"?>
-<testsuite name="Cucumber" time="5.09" tests="2" skipped="0" failures="0" errors="0" timestamp="2025-06-04T02:26:56.090Z">
-  <testcase classname="SauceDemo Login Success - Unsuccessful" name="1-Successful login and logout" time="2.13">
+<testsuite name="Cucumber" time="14.289" tests="7" skipped="0" failures="0" errors="0" timestamp="2025-06-05T22:52:40.327Z">
+  <testcase classname="Playwright website test" name="Verify Playwright website content" time="3.586">
+    <system-out><![CDATA[Given I navigate to the Playwright homepage.................................passed
+Then I should see the banner................................................passed
+Then the banner should contain the text "Get started".......................passed
+When I click on the "Get started" link......................................passed
+Then I should see the Installation header...................................passed
+Then I should see the Docs sidebar..........................................passed
+Then I should see the IntroductionInstalling text...........................passed]]></system-out>
+  </testcase>
+  <testcase classname="Login User" name="Successful user login" time="0.583">
+    <system-out><![CDATA[Given I send a POST request to the user endpoint with the following payload:..passed
+When the response status code should be 201.................................passed
+Then the response body should contain "Leanne Graham".......................passed]]></system-out>
+  </testcase>
+  <testcase classname="2-Sepete Ekle" name="2-Successful login and logout" time="2.142">
+    <system-out><![CDATA[Given I am on the login page................................................passed
+When I login with valid credentials.........................................passed
+Then I should see the inventory list........................................passed
+When I logout...............................................................passed]]></system-out>
+  </testcase>
+  <testcase classname="2-Sepete Ekle" name="2-Add item to cart and verify" time="1.054">
+    <system-out><![CDATA[Given I am on the login page................................................passed
+When I login with valid credentials.........................................passed
+When I add the first item to the cart.......................................passed
+Then the cart badge should display "1"......................................passed
+Then I should see the item in the cart......................................passed]]></system-out>
+  </testcase>
+  <testcase classname="Add To Chart" name="Tüm ürünleri sepete ekleme doğrulama" time="2.236">
+    <system-out><![CDATA[Given kullanıcı Saucedemo ana sayfasına gider...............................passed
+Then kullanıcı adı ve şifre ile giriş yapıyorum.............................passed
+When tüm ürünleri sepete ekler..............................................passed
+Then sepetteki ürün sayısı doğrulanır.......................................passed]]></system-out>
+  </testcase>
+  <testcase classname="SauceDemo Login Success - Unsuccessful" name="1-Successful login and logout" time="1.83">
     <system-out><![CDATA[Given Ana sayfaya gidiyorum.................................................passed
 When Geçerli kullanıcı adı ve şifre ile giriş yapıyorum.....................passed
 Then Envanter sayfasına yönlendirildiğimi doğrula...........................passed
 When Hesabımdan çıkış yapıyorum.............................................passed
 Then Giriş sayfasına yönlendirildiğimi doğrula..............................passed]]></system-out>
   </testcase>
-  <testcase classname="SauceDemo Login Success - Unsuccessful" name="1-Unsuccessful login and error message verification" time="2.947">
+  <testcase classname="SauceDemo Login Success - Unsuccessful" name="1-Unsuccessful login and error message verification" time="2.835">
     <system-out><![CDATA[Given Ana sayfaya gidiyorum.................................................passed
 When Geçersiz kullanıcı adı ve şifre ile giriş yapıyorum....................passed
 Then Hata mesajını gördüğümü doğrula........................................passed]]></system-out>

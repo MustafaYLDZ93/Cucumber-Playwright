@@ -1,17 +1,12 @@
 name: Run Tagged Cucumber + Playwright Tests
 
 on:
-  # Manuel tetikleme için
   workflow_dispatch:
     inputs:
       test_tags:
         description: 'Which tags to run? (e.g. @apiLogin or @login and not @regression)'
         required: false
-        default: '@login1'
-
-  # Her gün sabah 6:00 (Türkiye saatiyle 09:00) çalıştır
-  schedule:
-    - cron: '10 18 * * *'  # UTC 06:00 => Türkiye 09:00
+        default: '@login'
 
 jobs:
   test:
@@ -49,3 +44,18 @@ jobs:
       with:
         name: cucumber-report
         path: cucumber-report.html
+
+    - name: Send Slack Notification with Report Link
+      if: always()
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      run: |
+        STATUS="${{ job.status }}"
+        TAGS="${{ github.event.inputs.test_tags }}"
+        if [ -z "$TAGS" ]; then
+          TAGS="(Tüm senaryolar çalıştırıldı)"
+        fi
+        MESSAGE="*🎯 Cucumber + Playwright Test Sonucu:* ${STATUS}\n*🏷️ Tag Bilgisi:* \`${TAGS}\`\n*📘 Repo:* ${{ github.repository }}\n*🔗 Rapor:* <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|Cucumber Report (HTML)>"
+        curl -X POST -H 'Content-type: application/json' \
+             --data "{\"text\":\"$MESSAGE\"}" \
+             "$SLACK_WEBHOOK_URL"
