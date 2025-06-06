@@ -9,7 +9,7 @@ on:
         default: '@login1'
   # Her gün saat 21:17 (Türkiye saati) çalıştır
   schedule:
-    - cron: '17 18 * * *'  # UTC 18:17 => Türkiye 21:17 (yaz saati)
+    - cron: '*/2 * * * *'  # UTC 18:17 => Türkiye 21:17 (yaz saati)
 
 jobs:
   test:
