@@ -1,35 +1,32 @@
 name: Run Tagged Cucumber + Playwright Tests
+
 on:
-  # Manuel tetikleme için
   workflow_dispatch:
     inputs:
       test_tags:
         description: 'Which tags to run? (e.g. @apiLogin or @login and not @regression)'
         required: false
-        default: '@login1'
-  # Her gün saat 21:17 (Türkiye saati) çalıştır
-  schedule:
-    - cron: '*/2 * * * *'  # UTC 18:17 => Türkiye 21:17 (yaz saati)
+        default: '@login'
 
 jobs:
   test:
     runs-on: ubuntu-latest
+
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
-      
+      uses: actions/checkout@v3
+
     - name: Set up Node.js
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v3
       with:
         node-version: 18
-        cache: 'npm'
-        
+
     - name: Install dependencies
-      run: npm ci
-      
+      run: npm install
+
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
-      
+
     - name: Run Cucumber + Playwright Tests with Tag Filter
       run: |
         TAGS="${{ github.event.inputs.test_tags }}"
@@ -40,10 +37,10 @@ jobs:
           echo "Running tests with tags: $TAGS"
           npx cucumber-js --tags "$TAGS" --format html:cucumber-report.html
         fi
-        
+
     - name: Upload Cucumber Report
       if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: cucumber-report-${{ github.run_number }}
+        name: cucumber-report
         path: cucumber-report.html
