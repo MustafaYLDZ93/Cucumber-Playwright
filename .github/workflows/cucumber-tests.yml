@@ -3,7 +3,7 @@ name: Run Tagged Cucumber + Playwright Tests
 on:
   workflow_dispatch:
     inputs:
-      test_tags:
+      test_tag:
         description: 'Which tags to run? (e.g. @apiLogin or @login and not @regression)'
         required: false
         default: '@login'
