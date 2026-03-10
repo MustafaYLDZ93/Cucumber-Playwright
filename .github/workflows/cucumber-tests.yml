@@ -29,7 +29,7 @@ jobs:
 
     - name: Run Cucumber + Playwright Tests with Tag Filter
       run: |
-        TAGS="${{ github.event.inputs.test_tags }}"
+        TAGS="${{ github.event.inputs.test_tag }}"
         if [ -z "$TAGS" ]; then
           echo "No tags provided, running all tests"
           npx cucumber-js --format html:cucumber-report.html
